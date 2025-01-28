@@ -22,7 +22,7 @@ const displayQrCode = process.env.DISPLAY_QR_CODE === 'true';
 const dexcomBaseUrl = isSandbox ? 'https://sandbox-api.dexcom.com' : 'https://api.dexcom.com';
 
 // Token-Speicherpfad
-const tokenFilePath = path.resolve(__dirname, 'tokens.json');
+const tokenFilePath = path.resolve(__dirname, 'data', 'tokens.json');
 let accessToken = "";
 let refreshToken = "";
 
