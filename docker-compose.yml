@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - CLIENT_ID=${CLIENT_ID}
+      - CLIENT_SECRET=${CLIENT_SECRET}
+      - CALLBACK_URL=${CALLBACK_URL}
+      - MQTT_USERNAME=${MQTT_USERNAME}
+      - MQTT_PASSWORD=${MQTT_PASSWORD}
+      - MQTT_TOPIC=${MQTT_TOPIC}
+      - MQTT_BROKER_URL=${MQTT_BROKER_URL}
+      - SANDBOX=${SANDBOX}
+      - DISPLAY_QR_CODE=${DISPLAY_QR_CODE}
+    volumes:
+      - ./tokens.json:/usr/src/app/tokens.json
