@@ -1,6 +1,6 @@
-# Node.js Dexcom Integration Application
+# Node.js Dexcom Integration Application for Awtrix 3
 
-This application integrates with the Dexcom API to fetch glucose monitoring data and publishes it to an MQTT broker. It also provides a QR code for authentication when required.
+This application integrates with the Dexcom API to fetch glucose monitoring data and publishes it to an MQTT broker to display the values on a Ulanzi TC001 with Awtrix 3 firmware.
 
 ## Features
 
@@ -15,33 +15,25 @@ This application integrates with the Dexcom API to fetch glucose monitoring data
 - Docker and Docker Compose
 - Dexcom Developer Account
 - MQTT Broker
+- Ulanzi TC001 pixel clock
 
 ## Setup
 
 1. **Clone the Repository**
    ```bash
-   git clone <repository-url>
-   cd nodejs-docker-app
+   git clone https://github.com/myrdrks/dexcom-awtrix-display
+   cd dexcom-awtrix-display
    ```
 
-2. **Create a `.env` File**
-   Create a `.env` file in the project root and define the following variables:
-   ```env
-   CLIENT_ID=your_client_id
-   CLIENT_SECRET=your_client_secret
-   CALLBACK_URL=http://localhost:3000/dexcom
-   MQTT_USERNAME=your_mqtt_username
-   MQTT_PASSWORD=your_mqtt_password
-   MQTT_TOPIC=your_mqtt_topic
-   MQTT_BROKER_URL=mqtt://your_mqtt_broker
-   SANDBOX=true
-   DISPLAY_QR_CODE=true
-   ```
+2. **Copy `example.env` file**
+   to `.env` in the project root and update all relevant variables.
 
 3. **Run with Docker Compose**
    ```bash
    docker-compose up --build
    ```
+
+Full documentation in the [Wiki](https://github.com/myrdrks/dexcom-awtrix-display/wiki)
 
 ## Endpoints
 
@@ -60,6 +52,8 @@ This application integrates with the Dexcom API to fetch glucose monitoring data
 | `MQTT_BROKER_URL` | MQTT broker URL                                          |
 | `SANDBOX`         | Use Dexcom sandbox environment (`true` or `false`)       |
 | `DISPLAY_QR_CODE` | Display QR code for authentication (`true` or `false`)   |
+| `UPDATE_INTERVAL` | Interval in seconds the app checks for new values        |
+| `ICON`            | Icon to display on Awtrix                                |
 
 ## Usage
 
