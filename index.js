@@ -19,7 +19,7 @@ const mqttPassword = process.env.MQTT_PASSWORD;
 const mqttTopic = process.env.MQTT_TOPIC;
 const isSandbox = process.env.SANDBOX === 'true';
 const displayQrCode = process.env.DISPLAY_QR_CODE === 'true';
-const updateInverval = (parseInt(process.env.UPDATE_INTERVAL) === 60) * 1000;
+const updateInverval = (parseInt(process.env.UPDATE_INTERVAL = 60)) * 1000;
 const dexcomBaseUrl = isSandbox ? 'https://sandbox-api.dexcom.com' : 'https://api.dexcom.com';
 
 // Token-Speicherpfad
