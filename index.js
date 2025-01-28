@@ -8,7 +8,7 @@ const path = require('path');
 const qrcode = require('qrcode');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = 3000;
 
 // Globale Variablen aus .env
 const clientId = process.env.CLIENT_ID;
@@ -19,6 +19,7 @@ const mqttPassword = process.env.MQTT_PASSWORD;
 const mqttTopic = process.env.MQTT_TOPIC;
 const isSandbox = process.env.SANDBOX === 'true';
 const displayQrCode = process.env.DISPLAY_QR_CODE === 'true';
+const updateInverval = (parseInt(process.env.UPDATE_INTERVAL) === 60) * 1000;
 const dexcomBaseUrl = isSandbox ? 'https://sandbox-api.dexcom.com' : 'https://api.dexcom.com';
 
 // Token-Speicherpfad
@@ -198,11 +199,12 @@ setInterval(async () => {
             console.error('Error fetching Dexcom data:', error);
         }
     }
-}, 60000); // Alle 60 Sekunden
+}, updateInverval);
 
 // Server starten
 app.listen(port, () => {
-    console.log(`Node.js app listening at http://localhost:${port}`);
+    console.log(`Dexcom bridge running!`);
+    console.log(`Publishing values every ${process.env.UPDATE_INTERVAL} seconds.`)
     loadTokens();
     initializeAuth();
 });
