@@ -20,7 +20,7 @@ const mqttTopics = process.env.MQTT_TOPICS.split(',');
 const awtrixSettings = process.env.AWTRIX_SETTINGS;
 const isSandbox = process.env.SANDBOX === 'true';
 const displayQrCode = process.env.DISPLAY_QR_CODE === 'true';
-const updateInverval = (parseInt(process.env.UPDATE_INTERVAL = 60)) * 1000;
+const updateInterval = (parseInt(process.env.UPDATE_INTERVAL) || 60) * 1000;
 const dexcomBaseUrl = isSandbox ? 'https://sandbox-api.dexcom.com' : 'https://api.dexcom.com';
 
 // Token-Speicherpfad
@@ -221,11 +221,11 @@ setInterval(async () => {
             console.error('Error fetching Dexcom data:', error);
         }
     }
-}, updateInverval);
+}, updateInterval);
 
 // Server starten
 app.listen(port, () => {
-    console.log(`Publishing values every ${process.env.UPDATE_INTERVAL} seconds to ${mqttTopics.join(', ')}`);
+    console.log(`Publishing values every ${updateInterval / 1000} seconds to ${mqttTopics.join(', ')}`);
     loadTokens();
     initializeAuth();
     console.log(`Dexcom bridge running in ${isSandbox ? "Sandbox" : "Production"}mode!`);
