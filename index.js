@@ -17,6 +17,7 @@ const callbackUrl = process.env.CALLBACK_URL;
 const mqttUsername = process.env.MQTT_USERNAME;
 const mqttPassword = process.env.MQTT_PASSWORD;
 const mqttTopic = process.env.MQTT_TOPIC;
+const awtrixSettings = process.env.AWTRIX_SETTINGS;
 const isSandbox = process.env.SANDBOX === 'true';
 const displayQrCode = process.env.DISPLAY_QR_CODE === 'true';
 const updateInverval = (parseInt(process.env.UPDATE_INTERVAL = 60)) * 1000;
@@ -55,6 +56,10 @@ const mqttClient = mqtt.connect(process.env.MQTT_BROKER_URL, {
 
 mqttClient.on('connect', () => {
     console.log('Connected to MQTT broker');
+    if(awtrixSettings) {
+        console.log('Setting Awtrix settings from .env');
+        mqttClient.publish(mqttTopic.split('/')[0] + '/settings', awtrixSettings);
+    }
 });
 
 mqttClient.on('error', (error) => {

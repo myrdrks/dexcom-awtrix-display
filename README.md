@@ -54,6 +54,12 @@ Full documentation in the [Wiki](https://github.com/myrdrks/dexcom-awtrix-displa
 | `DISPLAY_QR_CODE` | Display QR code for authentication (`true` or `false`)   |
 | `UPDATE_INTERVAL` | Interval in seconds the app checks for new values        |
 | `ICON`            | Icon to display on Awtrix                                |
+| `AWTRIX_SETTINGS` | Set Awtrix settings JSON                                 |
+
+## Awtrix settings (optional)
+To disable Battery, Temperature and Humidity App set the environment variable for AWTRIX_SETTINGS to ``{"HUM": false, "TEMP": false, "BAT": false, "ABRI": true}``
+
+All available settings can be found here: https://blueforcer.github.io/awtrix3/#/api?id=json-properties-1
 
 ## Usage
 
