@@ -225,8 +225,8 @@ setInterval(async () => {
 
 // Server starten
 app.listen(port, () => {
-    console.log(`Dexcom bridge running!`);
-    console.log(`Publishing values every ${process.env.UPDATE_INTERVAL} seconds.`)
+    console.log(`Publishing values every ${process.env.UPDATE_INTERVAL} seconds to ${mqttTopics.join(', ')}`);
     loadTokens();
     initializeAuth();
+    console.log(`Dexcom bridge running in ${isSandbox ? "Sandbox" : "Production"}mode!`);
 });
