@@ -48,7 +48,7 @@ Full documentation in the [Wiki](https://github.com/myrdrks/dexcom-awtrix-displa
 | `CALLBACK_URL`    | URL to handle Dexcom OAuth2 callback                     |
 | `MQTT_USERNAME`   | MQTT broker username                                     |
 | `MQTT_PASSWORD`   | MQTT broker password                                     |
-| `MQTT_TOPIC`      | Topic where data will be published                       |
+| `MQTT_TOPICS`     | Topics where data will be published (comma separated)    |
 | `MQTT_BROKER_URL` | MQTT broker URL                                          |
 | `SANDBOX`         | Use Dexcom sandbox environment (`true` or `false`)       |
 | `DISPLAY_QR_CODE` | Display QR code for authentication (`true` or `false`)   |
