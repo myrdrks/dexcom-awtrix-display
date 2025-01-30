@@ -16,7 +16,7 @@ const clientSecret = process.env.CLIENT_SECRET;
 const callbackUrl = process.env.CALLBACK_URL;
 const mqttUsername = process.env.MQTT_USERNAME;
 const mqttPassword = process.env.MQTT_PASSWORD;
-const mqttTopic = process.env.MQTT_TOPIC;
+const mqttTopics = process.env.MQTT_TOPICS.split(',');
 const awtrixSettings = process.env.AWTRIX_SETTINGS;
 const isSandbox = process.env.SANDBOX === 'true';
 const displayQrCode = process.env.DISPLAY_QR_CODE === 'true';
@@ -56,9 +56,11 @@ const mqttClient = mqtt.connect(process.env.MQTT_BROKER_URL, {
 
 mqttClient.on('connect', () => {
     console.log('Connected to MQTT broker');
-    if(awtrixSettings) {
+    if(awtrixSettings && awtrixSettings.length) {
         console.log('Setting Awtrix settings from .env');
-        mqttClient.publish(mqttTopic.split('/')[0] + '/settings', awtrixSettings);
+        mqttTopics.forEach(topic => {
+            mqttClient.publish(topic.split('/')[0] + '/settings', awtrixSettings);
+        });
     }
 });
 
@@ -187,15 +189,30 @@ setInterval(async () => {
             }
         });
 
-        // console.log('Actual values response:', actualValuesResponse.data);
-
+        const { value } = actualValuesResponse.data.records[0];
+        let color;
+        
+        if (value >= 0 && value <= 55) {
+            color = '#FF0000'; // Red
+        } else if (value >= 56 && value <= 79) {
+            color = '#FFA500'; // Orange
+        } else if (value >= 80 && value <= 120) {
+            color = '#008000'; // Green
+        } else if (value >= 121 && value <= 159) {
+            color = '#FFA500'; // Orange
+        } else if (value >= 160) {
+            color = '#FF0000'; // Red
+        }
         const payload = {
-            text: actualValuesResponse.data.records[0].value,
-            icon: process.env.ICON
+            text: value,
+            icon: process.env.ICON,
+            color,
         };
 
-        mqttClient.publish(mqttTopic, JSON.stringify(payload));
-        console.log('Published to MQTT:', payload);
+        mqttTopics.forEach(topic => {
+            mqttClient.publish(topic, JSON.stringify(payload));
+            console.log(`Published ${JSON.stringify(payload)} to ${topic}`);
+        })
     } catch (error) {
         if (error.response && error.response.status === 401) {
             console.log('Access token expired, refreshing...');
